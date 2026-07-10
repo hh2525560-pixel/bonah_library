@@ -1,0 +1,371 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Cairo',sans-serif;
+    direction:rtl;
+    min-height:100vh;
+    background:linear-gradient(135deg,#071426,#0b1f3d,#102b54,#1d4ed8);
+    background-size:400% 400%;
+    animation:bgMove 15s ease infinite;
+    color:#fff;
+}
+
+@keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+a{
+    text-decoration:none;
+    transition:.3s;
+}
+
+.login-container{
+    width:430px;
+    max-width:92%;
+    margin:70px auto;
+    padding:40px;
+    border-radius:25px;
+
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:
+    0 15px 45px rgba(0,0,0,.35),
+    inset 0 0 0 1px rgba(255,255,255,.05);
+
+    transition:.4s;
+}
+
+.login-container:hover{
+    transform:translateY(-6px);
+    box-shadow:0 25px 60px rgba(0,0,0,.45);
+}
+
+.login-container h2{
+    text-align:center;
+    margin-bottom:30px;
+    font-size:33px;
+    font-weight:800;
+
+    background:linear-gradient(90deg,#60a5fa,#38bdf8,#22d3ee);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.form-group{
+    margin-bottom:22px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:700;
+    color:#dbeafe;
+}
+
+.form-group input{
+    width:100%;
+    padding:15px 18px;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.15);
+
+    background:rgba(255,255,255,.08);
+
+    color:#fff;
+
+    font-size:16px;
+
+    transition:.35s;
+}
+
+.form-group input::placeholder{
+    color:#b8c7e0;
+}
+
+.form-group input:focus{
+
+    outline:none;
+
+    border-color:#38bdf8;
+
+    background:rgba(255,255,255,.13);
+
+    box-shadow:0 0 18px rgba(56,189,248,.45);
+}
+
+.btn{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:14px;
+
+    font-size:17px;
+
+    font-weight:800;
+
+    color:white;
+
+    cursor:pointer;
+
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+
+    transition:.35s;
+
+    box-shadow:0 12px 30px rgba(37,99,235,.35);
+}
+
+.btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 20px 40px rgba(6,182,212,.45);
+
+    background:linear-gradient(135deg,#1d4ed8,#0891b2);
+}
+
+.btn:active{
+    transform:scale(.98);
+}
+
+.alert{
+
+    padding:14px;
+
+    margin-bottom:20px;
+
+    border-radius:12px;
+
+    background:rgba(239,68,68,.18);
+
+    border:1px solid rgba(239,68,68,.4);
+
+    color:#ffe4e6;
+
+    font-weight:700;
+}
+
+.toggle-link{
+
+    text-align:center;
+
+    margin-top:25px;
+
+    color:#dbeafe;
+}
+
+.toggle-link a{
+
+    color:#38bdf8;
+
+    font-weight:700;
+}
+
+.toggle-link a:hover{
+
+    color:#7dd3fc;
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    overflow:hidden;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.06);
+
+    backdrop-filter:blur(10px);
+
+    margin-top:20px;
+}
+
+th{
+
+    background:rgba(37,99,235,.8);
+
+    color:white;
+
+    padding:16px;
+}
+
+td{
+
+    padding:15px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+tr:hover{
+
+    background:rgba(255,255,255,.08);
+}
+
+.card{
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:22px;
+
+    padding:25px;
+
+    border:1px solid rgba(255,255,255,.1);
+
+    box-shadow:0 10px 35px rgba(0,0,0,.3);
+
+    transition:.35s;
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 18px 45px rgba(0,0,0,.4);
+}
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#0b1730;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#2563eb;
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#38bdf8;
+}
+/* ستايل قسم تعرف علينا والتواصل الاجتماعي */
+.custom-footer {
+    margin-top: 50px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 20px 20px 0 0;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 0 20px 30px 20px;
+}
+
+.footer-card {
+    flex: 1;
+    min-width: 300px;
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.footer-card h3 {
+    margin-top: 0;
+    color: #38bdf8;
+    font-size: 20px;
+    border-bottom: 2px solid rgba(56, 189, 248, 0.2);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.footer-card p {
+    color: #cbd5e1;
+    line-height: 1.6;
+    font-size: 15px;
+    margin: 0;
+}
+
+/* أزرار السوشيال ميديا التفاعلية */
+
+
+
+
+.footer-bottom {
+    text-align: center;
+    padding: 15px;
+    background: #090d16;
+    color: #64748b;
+    font-size: 13px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+/* --- بدء تنسيق قسم السوشيال الجديد --- */
+.social-links-section {
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.social-links-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: white !important; /* لضمان عدم تأثر اللون بأي تنسيق آخر */
+    font-weight: bold;
+    border-radius: 10px;
+    transition: 0.3s;
+    width: 220px;
+    font-size: 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.social-icon {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1); /* يجعل الأيقونات بيضاء لتناسب التصميم */
+}
+
+.facebook-btn {
+    background: #1877f2 !important;
+}
+
+.instagram-btn {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888) !important;
+}
+
+.social-btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+/* --- نهاية تنسيق قسم السوشيال الجديد --- */

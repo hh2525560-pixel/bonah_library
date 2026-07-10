@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>مكتبة بناة | لوحة التحكم</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<style>
+
+.dashboard-container{
+
+max-width:1200px;
+
+margin:40px auto;
+
+padding:20px;
+
+}
+
+.header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin-bottom:45px;
+
+padding:25px 35px;
+
+background:rgba(255,255,255,.08);
+
+backdrop-filter:blur(18px);
+
+border-radius:22px;
+
+border:1px solid rgba(255,255,255,.1);
+
+box-shadow:0 15px 40px rgba(0,0,0,.35);
+
+}
+
+.header h1{
+
+font-size:34px;
+
+font-weight:800;
+
+}
+
+.header span{
+
+color:#38bdf8;
+
+}
+
+.logout-btn{
+
+background:linear-gradient(135deg,#ef4444,#dc2626);
+
+padding:14px 22px;
+
+border-radius:12px;
+
+font-weight:bold;
+
+color:white;
+
+text-decoration:none;
+
+transition:.3s;
+
+}
+
+.logout-btn:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 15px 30px rgba(239,68,68,.35);
+
+}
+
+.welcome{
+
+text-align:center;
+
+margin-bottom:40px;
+
+}
+
+.welcome h2{
+
+font-size:30px;
+
+margin-bottom:10px;
+
+}
+
+.welcome p{
+
+color:#dbeafe;
+
+font-size:18px;
+
+}
+
+.grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+
+gap:25px;
+
+}
+
+.card{
+
+padding:35px;
+
+border-radius:24px;
+
+background:rgba(255,255,255,.08);
+
+backdrop-filter:blur(16px);
+
+border:1px solid rgba(255,255,255,.12);
+
+text-decoration:none;
+
+color:white;
+
+transition:.35s;
+
+box-shadow:0 10px 35px rgba(0,0,0,.3);
+
+}
+
+.card:hover{
+
+transform:translateY(-10px) scale(1.03);
+
+}
+
+.icon{
+
+font-size:60px;
+
+margin-bottom:20px;
+
+}
+
+.card h3{
+
+font-size:24px;
+
+margin-bottom:12px;
+
+}
+
+.card p{
+
+line-height:1.8;
+
+color:#d6e6ff;
+
+}
+
+.books{
+
+background:linear-gradient(135deg,#2563eb,#06b6d4);
+
+}
+
+.mybooks{
+
+background:linear-gradient(135deg,#0891b2,#14b8a6);
+
+}
+
+.courses{
+
+background:linear-gradient(135deg,#7c3aed,#9333ea);
+
+}
+
+.mycourses{
+
+background:linear-gradient(135deg,#ea580c,#f59e0b);
+
+}
+
+.admin{
+
+background:linear-gradient(135deg,#dc2626,#f97316);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+<div class="header">
+
+<h1>
+
+<i class="fa-solid fa-book-open-reader"></i>
+
+مرحباً
+
+<span>{{ username }}</span>
+
+</h1>
+
+<a href="/logout" class="logout-btn">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+تسجيل الخروج
+
+</a>
+
+</div>
+
+<div class="welcome">
+
+<h2>
+
+📚 أهلاً بك في مكتبة بناة
+
+</h2>
+
+<p>
+
+استمتع بتصفح الكتب والدورات التعليمية وإدارة حسابك بسهولة.
+
+</p>
+
+</div>
+
+<div class="grid">
+
+{% if username == 'admin' %}
+
+<a href="/admin" class="card admin">
+
+<div class="icon">
+
+⚙️
+
+</div>
+
+<h3>
+
+لوحة الإدارة
+
+</h3>
+
+<p>
+
+إدارة الكتب والدورات والمستخدمين ومتابعة جميع العمليات.
+
+</p>
+
+</a>
+
+{% endif %}
+
+<a href="/books" class="card books">
+
+<div class="icon">
+
+📚
+
+</div>
+
+<h3>
+
+تصفح الكتب
+
+</h3>
+
+<p>
+
+استكشف جميع الكتب الموجودة داخل المكتبة.
+
+</p>
+
+</a>
+
+<a href="/my-books" class="card mybooks">
+
+<div class="icon">
+
+📖
+
+</div>
+
+<h3>
+
+كتبي
+
+</h3>
+
+<p>
+
+إدارة الكتب التي قمت باستعارتها.
+
+</p>
+
+</a>
+
+<a href="/courses" class="card courses">
+
+<div class="icon">
+
+🎓
+
+</div>
+
+<h3>
+
+الدورات
+
+</h3>
+
+<p>
+
+اكتشف الدورات التعليمية الجديدة.
+
+</p>
+
+</a>
+
+<a href="/my-courses" class="card mycourses">
+
+<div class="icon">
+
+🏆
+
+</div>
+
+<h3>
+
+دوراتي
+
+</h3>
+
+<p>
+
+عرض جميع الدورات التي سجلت بها.
+
+</p>
+
+</a>
+
+</div>
+
+</div>
+
+</footer>
+<!-- قسم تابعنا وتواصل معنا الجديد -->
+<div class="social-links-section">
+    <h3>🌐 تابعنا وتواصل معنا</h3>
+    <p>اشترك معنا على منصات التواصل الاجتماعي لتبقى على اطلاع بأحدث الدورات والكتب:</p>
+    
+    <div class="social-links-container">
+        <!-- زر فيسبوك -->
+        <a href="https://www.facebook.com/YOUR_PAGE" target="_blank" class="social-btn facebook-btn">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" class="social-icon">
+            فيسبوك
+        </a>
+        
+        <!-- زر إنستغرام -->
+        <a href="https://www.instagram.com/YOUR_ACCOUNT" target="_blank" class="social-btn instagram-btn">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="social-icon">
+            إنستغرام
+        </a>
+    </div>
+</div>
+</body>
+
+</html>

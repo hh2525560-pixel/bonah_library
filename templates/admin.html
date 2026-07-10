@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة بناة | لوحة تحكم الإدارة</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* تخصيص ألوان لوحة التحكم لتطابق الواجهة الخارجية */
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* الهيدر العلوي */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .admin-header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #38bdf8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-logout {
+            background: #ef4444;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: #dc2626;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+
+        /* التنبيهات */
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+        .flash-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .flash-success { background: rgba(34, 197, 94, 0.2); border: 1px solid #22c55e; color: #4ade80; }
+        .flash-error { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #f87171; }
+
+        /* شبكة النوافذ والكروت */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-grid { grid-template-columns: 1fr; }
+        }
+
+        .admin-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 20px;
+            color: #f1f5f9;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(56, 189, 248, 0.2);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* استمارات الإدخال */
+        .admin-form {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #38bdf8;
+            outline: none;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+        .btn-submit {
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #0284c7;
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+        }
+
+        /* الجداول الحديثة */
+        .table-responsive {
+            overflow-x: auto;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .admin-table th {
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 12px;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .admin-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+        }
+
+        .admin-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+            color: white;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #64748b;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        .btn-delete {
+            background: none;
+            border: 1px solid #ef4444;
+            color: #f87171;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .btn-delete:hover {
+            background: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-container">
+        
+        <header class="admin-header">
+            <h1>⚙️ لوحة تحكم الإدارة العليا</h1>
+            <a href="{{ url_for('logout') }}" class="btn-logout">تسجيل الخروج</a>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-box flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="admin-grid">
+            
+            <div class="admin-card">
+                <h2 class="card-title">📚 إضافة كتاب جديد للمكتبة</h2>
+                <form action="{{ url_for('add_book') }}" method="POST" class="admin-form">
+                    <div class="form-group">
+                        <input type="text" name="title" class="form-control" placeholder="عنوان الكتاب (مثال: Clean Code)" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="author" class="form-control" placeholder="المؤلف (مثال: Robert C. Martin)" required>
+                    </div>
+                    <button type="submit" class="btn-submit">حفظ الكتاب</button>
+                </form>
+
+                <h3 style="color: #38bdf8; font-size: 16px; margin-bottom: 10px;">الكتب المتاحة حالياً:</h3>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>العنوان</th>
+                                <th>المؤلف</th>
+                                <th style="text-align: center;">إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for book in books %}
+                            <tr>
+                                <td>{{ book.title }}</td>
+                                <td>{{ book.author }}</td>
+                                <td style="text-align: center;">
+                                    <form action="{{ url_for('delete_book', book_id=book.id) }}" method="POST" style="margin:0;">
+                                        <button type="submit" class="btn-delete" onclick="return confirm('هل أنت متأكد من حذف هذا الكتاب؟')">حذف</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3" class="no-data">لا توجد كتب مضافة في قاعدة البيانات حالياً.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <h2 class="card-title">🎓 إضافة دورة تدريبية جديدة</h2>
+                <form action="{{ url_for('add_course') }}" method="POST" class="admin-form">
+                    <div class="form-group">
+                        <input type="text" name="title" class="form-control" placeholder="اسم الدورة (مثال: Advanced JavaScript)" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="instructor" class="form-control" placeholder="المهندس / المدرب" required>
+                    </div>
+                    <button type="submit" class="btn-submit">نشر الدورة</button>
+                </form>
+
+                <h3 style="color: #38bdf8; font-size: 16px; margin-bottom: 10px;">الدورات المنشورة:</h3>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>اسم الدورة</th>
+                                <th>المدرب المسؤول</th>
+                                <th style="text-align: center;">إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for course in courses %}
+                            <tr>
+                                <td>{{ course.title }}</td>
+                                <td>{{ course.instructor }}</td>
+                                <td style="text-align: center;">
+                                    <form action="{{ url_for('delete_course', course_id=course.id) }}" method="POST" style="margin:0;">
+                                        <button type="submit" class="btn-delete" onclick="return confirm('هل أنت متأكد من حذف هذه الدورة؟')">حذف</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3" class="no-data">لا توجد دورات تدريبية منشورة حالياً.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="admin-grid">
+
+            <div class="admin-card">
+                <h2 class="card-title">👥 المستخدمين المسجلين في النظام</h2>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>رقم الحساب (ID)</th>
+                                <th>اسم المستخدم المشترك</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td style="font-weight: bold; color: white;">{{ user.username }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="2" class="no-data">لا يوجد مستخدمون مسجلون في النظام حتى الآن.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <h2 class="card-title">📊 مراقبة استعارات الكتب الحالية</h2>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>اسم المستعير</th>
+                                <th>الكتاب المحجوز</th>
+                                <th>المؤلف</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for res in reservations %}
+                            <tr>
+                                <td style="color: #38bdf8;">{{ res.username }}</td>
+                                <td>{{ res.title }}</td>
+                                <td>{{ res.author }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3" class="no-data">لا توجد أي استعارات نشطة حالياً في النظام.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="admin-card" style="grid-column: 1 / -1;">
+                <h2 class="card-title">📈 مراقبة الاشتراكات بالدورات التدريبية</h2>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>اسم الطالب المشترك</th>
+                                <th>الدورة المسجل بها</th>
+                                <th>المدرب المسؤول عنها</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%  for enroll in enrollments %}
+                            <tr>
+                                <td style="color: #38bdf8;">{{ enroll.username }}</td>
+                                <td>{{ enroll.course_title }}</td>
+                                <td>{{ enroll.instructor }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3" class="no-data">لا يوجد طلاب مسجلين في أي دورة حالياً.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

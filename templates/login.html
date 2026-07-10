@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>مكتبة بناة | تسجيل الدخول</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div style="text-align:center;margin-bottom:25px;">
+
+        <div style="
+            width:90px;
+            height:90px;
+            margin:auto;
+            border-radius:50%;
+            background:linear-gradient(135deg,#2563eb,#06b6d4);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:40px;
+            color:white;
+            box-shadow:0 15px 35px rgba(37,99,235,.45);
+        ">
+            <i class="fa-solid fa-book-open-reader"></i>
+        </div>
+
+        <h2 style="margin-top:18px;">
+            مكتبة بناة
+        </h2>
+
+        <p style="
+            color:#cbd5e1;
+            margin-top:10px;
+            font-size:15px;
+        ">
+            مرحباً بك 👋
+            <br>
+            سجّل دخولك للوصول إلى الكتب والدورات التدريبية.
+        </p>
+
+    </div>
+
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+<form action="/login" method="POST">
+
+<div class="form-group">
+
+<label>
+
+<i class="fa-solid fa-user"></i>
+
+اسم المستخدم
+
+</label>
+
+<input
+type="text"
+name="username"
+placeholder="أدخل اسم المستخدم"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+<i class="fa-solid fa-lock"></i>
+
+كلمة المرور
+
+</label>
+
+<input
+type="password"
+name="password"
+placeholder="أدخل كلمة المرور"
+required>
+
+</div>
+
+<button class="btn">
+
+<i class="fa-solid fa-right-to-bracket"></i>
+
+تسجيل الدخول
+
+</button>
+
+</form>
+
+<div class="toggle-link">
+
+<p>
+
+ليس لديك حساب؟
+
+<br><br>
+
+<a href="/register">
+
+<i class="fa-solid fa-user-plus"></i>
+
+إنشاء حساب جديد
+
+</a>
+
+</p>
+
+</div>
+
+<hr style="
+margin:25px 0;
+opacity:.15;
+">
+
+<div style="
+text-align:center;
+font-size:14px;
+color:#b8c7e0;
+">
+
+<i class="fa-solid fa-shield-halved"></i>
+
+جميع البيانات محمية وآمنة داخل مكتبة بناة.
+
+</div>
+
+</div>
+
+</body>
+
+</html>

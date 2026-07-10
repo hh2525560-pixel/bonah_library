@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة بناة | الكتب المتاحة</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 30px 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid rgba(56, 189, 248, 0.2);
+            padding-bottom: 15px;
+        }
+        .header-area h1 { margin: 0; font-size: 26px; color: #f1f5f9; }
+        .back-link {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.3s;
+        }
+        .back-link:hover { color: #0ea5e9; }
+        
+        /* رسائل التنبيه */
+        .flash-box {
+            padding: 15px; border-radius: 8px; margin-bottom: 25px; text-align: center; font-weight: bold;
+        }
+        .flash-success { background: rgba(34, 197, 94, 0.2); border: 1px solid #22c55e; color: #4ade80; }
+        .flash-error { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #f87171; }
+
+        /* شبكة الكروت للكتب */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.15);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+        .book-icon { font-size: 45px; margin-bottom: 15px; }
+        .book-title { font-size: 20px; color: #06b6d4; margin: 10px 0; font-weight: bold; }
+        .book-author { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+        .btn-reserve {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+        }
+        .btn-reserve:hover {
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+        }
+        .btn-disabled {
+            background: rgba(148, 163, 184, 0.1);
+            color: #64748b;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            cursor: not-allowed;
+        }
+        .no-data { text-align: center; color: #64748b; grid-column: 1/-1; padding: 40px; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-area">
+            <h1>📚 الكتب العلمية والمصادر المتاحة</h1>
+            <a href="{{ url_for('dashboard') }}" class="back-link">🔙 العودة للوحة العامة</a>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-box flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="grid">
+            {% for book in books %}
+                <div class="card">
+                    <div>
+                        <div class="book-icon">📘</div>
+                        <div class="book-title">{{ book.title }}</div>
+                        <div class="book-author">المؤلف: {{ book.author }}</div>
+                    </div>
+                    {% if book.id in reserved_ids %}
+                        <button class="btn btn-disabled" disabled>✔️ تم حجز هذا الكتاب مسبقاً</button>
+                    {% else %}
+                        <form action="{{ url_for('reserve_book', book_id=book.id) }}" method="POST">
+                            <button type="submit" class="btn btn-reserve">⚡ حجز الكتاب الآن</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="no-data">لا توجد كتب متوفرة في المكتبة حالياً.</div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
