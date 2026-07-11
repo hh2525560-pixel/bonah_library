@@ -41,6 +41,47 @@
         .flash-success { background: rgba(34, 197, 94, 0.2); border: 1px solid #22c55e; color: #4ade80; }
         .flash-error { background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #f87171; }
 
+        /* خانة البحث */
+        .search-box {
+            position: relative;
+            max-width: 420px;
+            margin: 0 auto 30px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 13px 45px 13px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            background: rgba(30, 41, 59, 0.6);
+            color: #f8fafc;
+            font-family: inherit;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        .search-box input::placeholder { color: #64748b; }
+        .search-box input:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+        .search-box .search-icon {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #64748b;
+            pointer-events: none;
+        }
+        .search-empty {
+            text-align: center;
+            color: #64748b;
+            grid-column: 1/-1;
+            padding: 40px;
+            font-style: italic;
+            display: none;
+        }
+
         /* شبكة الكروت للكتب */
         .grid {
             display: grid;
@@ -108,9 +149,17 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <div class="grid">
+
+        {% if books %}
+        <div class="search-box">
+            <input type="text" id="bookSearch" placeholder="ابحث باسم الكتاب أو المؤلف..." autocomplete="off">
+            <span class="search-icon">🔍</span>
+        </div>
+        {% endif %}
+
+        <div class="grid" id="booksGrid">
             {% for book in books %}
-                <div class="card">
+                <div class="card" data-title="{{ book.title|lower }}" data-author="{{ book.author|lower }}">
                     <div>
                         <div class="book-icon">📘</div>
                         <div class="book-title">{{ book.title }}</div>
@@ -130,7 +179,32 @@
             {% else %}
                 <div class="no-data">لا توجد كتب متوفرة في المكتبة حالياً.</div>
             {% endfor %}
+            <div class="search-empty" id="searchEmpty">لا توجد نتائج مطابقة لبحثك.</div>
         </div>
     </div>
+
+    <script>
+        (function () {
+            var input = document.getElementById('bookSearch');
+            if (!input) return; // ما في كتب أصلاً، ما في داعي للبحث
+
+            var cards = Array.prototype.slice.call(document.querySelectorAll('#booksGrid .card'));
+            var emptyMsg = document.getElementById('searchEmpty');
+
+            input.addEventListener('input', function () {
+                var query = input.value.trim().toLowerCase();
+                var visibleCount = 0;
+
+                cards.forEach(function (card) {
+                    var matches = card.getAttribute('data-title').indexOf(query) !== -1 ||
+                                   card.getAttribute('data-author').indexOf(query) !== -1;
+                    card.style.display = matches ? '' : 'none';
+                    if (matches) visibleCount++;
+                });
+
+                emptyMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+            });
+        })();
+    </script>
 </body>
 </html>
