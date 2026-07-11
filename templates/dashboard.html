@@ -2,395 +2,318 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>مكتبة بناة | لوحة التحكم</title>
-
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@500;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
 <style>
-
-.dashboard-container{
-
-max-width:1200px;
-
-margin:40px auto;
-
-padding:20px;
-
-}
-
-.header{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-margin-bottom:45px;
-
-padding:25px 35px;
-
-background:rgba(255,255,255,.08);
-
-backdrop-filter:blur(18px);
-
-border-radius:22px;
-
-border:1px solid rgba(255,255,255,.1);
-
-box-shadow:0 15px 40px rgba(0,0,0,.35);
-
-}
-
-.header h1{
-
-font-size:34px;
-
-font-weight:800;
-
-}
-
-.header span{
-
-color:#38bdf8;
-
-}
-
-.logout-btn{
-
-background:linear-gradient(135deg,#ef4444,#dc2626);
-
-padding:14px 22px;
-
-border-radius:12px;
-
-font-weight:bold;
-
-color:white;
-
-text-decoration:none;
-
-transition:.3s;
-
-}
-
-.logout-btn:hover{
-
-transform:translateY(-3px);
-
-box-shadow:0 15px 30px rgba(239,68,68,.35);
-
-}
-
-.welcome{
-
-text-align:center;
-
-margin-bottom:40px;
-
-}
-
-.welcome h2{
-
-font-size:30px;
-
-margin-bottom:10px;
-
-}
-
-.welcome p{
-
-color:#dbeafe;
-
-font-size:18px;
-
-}
-
-.grid{
-
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-
-gap:25px;
-
-}
-
-.card{
-
-padding:35px;
-
-border-radius:24px;
-
-background:rgba(255,255,255,.08);
-
-backdrop-filter:blur(16px);
-
-border:1px solid rgba(255,255,255,.12);
-
-text-decoration:none;
-
-color:white;
-
-transition:.35s;
-
-box-shadow:0 10px 35px rgba(0,0,0,.3);
-
-}
-
-.card:hover{
-
-transform:translateY(-10px) scale(1.03);
-
-}
-
-.icon{
-
-font-size:60px;
-
-margin-bottom:20px;
-
-}
-
-.card h3{
-
-font-size:24px;
-
-margin-bottom:12px;
-
-}
-
-.card p{
-
-line-height:1.8;
-
-color:#d6e6ff;
-
-}
-
-.books{
-
-background:linear-gradient(135deg,#2563eb,#06b6d4);
-
-}
-
-.mybooks{
-
-background:linear-gradient(135deg,#0891b2,#14b8a6);
-
-}
-
-.courses{
-
-background:linear-gradient(135deg,#7c3aed,#9333ea);
-
-}
-
-.mycourses{
-
-background:linear-gradient(135deg,#ea580c,#f59e0b);
-
-}
-
-.admin{
-
-background:linear-gradient(135deg,#dc2626,#f97316);
-
-}
-
+  :root{
+    --bg-deep:#0d1420;
+    --bg-panel:#141d2e;
+    --bg-panel-light:#1c2740;
+    --gold:#d4a24c;
+    --gold-soft:#e8c27a;
+    --teal:#3fb6a8;
+    --ink:#f3ede1;
+    --ink-dim:#aab4c8;
+    --border:rgba(212,162,76,.18);
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    background:
+      radial-gradient(circle at 15% 0%, rgba(212,162,76,.08), transparent 45%),
+      radial-gradient(circle at 85% 100%, rgba(63,182,168,.08), transparent 45%),
+      var(--bg-deep);
+    color:var(--ink);
+    font-family:'Tajawal', sans-serif;
+    min-height:100vh;
+  }
+
+  .dashboard-container{
+    max-width:1200px;
+    margin:0 auto;
+    padding:50px 24px 70px;
+  }
+
+  /* ===== Header ===== */
+  .header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:55px;
+    padding:24px 36px;
+    background:var(--bg-panel);
+    border-radius:16px;
+    border:1px solid var(--border);
+    box-shadow:0 20px 45px rgba(0,0,0,.4);
+  }
+
+  .header h1{
+    font-family:'Markazi Text', serif;
+    font-size:36px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+
+  .header h1 i{
+    color:var(--gold);
+    font-size:32px;
+  }
+
+  .header span{
+    color:var(--gold-soft);
+  }
+
+  .logout-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:transparent;
+    border:1.5px solid #e0655d;
+    padding:12px 22px;
+    border-radius:10px;
+    font-weight:700;
+    color:#f2a29d;
+    text-decoration:none;
+    transition:.25s;
+  }
+
+  .logout-btn:hover{
+    background:#e0655d;
+    color:#fff;
+    box-shadow:0 10px 25px rgba(224,101,93,.35);
+  }
+
+  /* ===== Welcome ===== */
+  .welcome{
+    text-align:center;
+    margin-bottom:50px;
+  }
+
+  .welcome h2{
+    font-family:'Markazi Text', serif;
+    font-size:34px;
+    font-weight:700;
+    color:var(--gold-soft);
+    margin-bottom:12px;
+  }
+
+  .welcome p{
+    color:var(--ink-dim);
+    font-size:17px;
+  }
+
+  /* ===== Cards Grid ===== */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:22px;
+  }
+
+  .card{
+    position:relative;
+    padding:32px 28px;
+    border-radius:18px;
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    text-decoration:none;
+    color:var(--ink);
+    transition:.3s ease;
+    overflow:hidden;
+  }
+
+  .card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(135deg, var(--card-color, var(--gold)) 0%, transparent 60%);
+    opacity:0;
+    transition:.3s ease;
+  }
+
+  .card:hover{
+    transform:translateY(-8px);
+    border-color:var(--card-color, var(--gold));
+    box-shadow:0 20px 40px rgba(0,0,0,.35);
+  }
+
+  .card:hover::before{
+    opacity:.12;
+  }
+
+  .icon{
+    font-size:46px;
+    margin-bottom:18px;
+    display:inline-block;
+  }
+
+  .card h3{
+    font-family:'Markazi Text', serif;
+    font-size:24px;
+    font-weight:700;
+    margin-bottom:10px;
+    color:var(--card-color, var(--gold-soft));
+  }
+
+  .card p{
+    line-height:1.8;
+    color:var(--ink-dim);
+    font-size:15px;
+  }
+
+  .books{ --card-color:#5aa9e6; }
+  .mybooks{ --card-color:var(--teal); }
+  .courses{ --card-color:#a17ee0; }
+  .mycourses{ --card-color:#e6a25a; }
+  .admin{ --card-color:#e0655d; }
+
+  /* ===== Social Section ===== */
+  .social-links-section{
+    max-width:1200px;
+    margin:60px auto 0;
+    padding:36px;
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:18px;
+    text-align:center;
+  }
+
+  .social-links-section h3{
+    font-family:'Markazi Text', serif;
+    font-size:26px;
+    color:var(--gold-soft);
+    margin-bottom:10px;
+  }
+
+  .social-links-section p{
+    color:var(--ink-dim);
+    margin-bottom:24px;
+    font-size:15px;
+  }
+
+  .social-links-container{
+    display:flex;
+    justify-content:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+
+  .social-btn{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 24px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:700;
+    color:#fff;
+    transition:.25s;
+  }
+
+  .social-icon{
+    width:20px;
+    height:20px;
+  }
+
+  .facebook-btn{
+    background:#1b3a63;
+  }
+  .facebook-btn:hover{
+    background:#1877f2;
+    transform:translateY(-3px);
+  }
+
+  .instagram-btn{
+    background:linear-gradient(135deg,#6b2e8f,#c1367c,#e0954f);
+  }
+  .instagram-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 25px rgba(193,54,124,.35);
+  }
 </style>
-
 </head>
 
 <body>
 
 <div class="dashboard-container">
 
-<div class="header">
+  <div class="header">
+    <h1>
+      <i class="fa-solid fa-book-open-reader"></i>
+      مرحباً
+      <span>{{ username }}</span>
+    </h1>
+    <a href="/logout" class="logout-btn">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      تسجيل الخروج
+    </a>
+  </div>
 
-<h1>
+  <div class="welcome">
+    <h2>📚 أهلاً بك في مكتبة بناة</h2>
+    <p>استمتع بتصفح الكتب والدورات التعليمية وإدارة حسابك بسهولة.</p>
+  </div>
 
-<i class="fa-solid fa-book-open-reader"></i>
+  <div class="grid">
 
-مرحباً
+    {% if username == 'admin' %}
+    <a href="/admin" class="card admin">
+      <div class="icon">⚙️</div>
+      <h3>لوحة الإدارة</h3>
+      <p>إدارة الكتب والدورات والمستخدمين ومتابعة جميع العمليات.</p>
+    </a>
+    {% endif %}
 
-<span>{{ username }}</span>
+    <a href="/books" class="card books">
+      <div class="icon">📚</div>
+      <h3>تصفح الكتب</h3>
+      <p>استكشف جميع الكتب الموجودة داخل المكتبة.</p>
+    </a>
 
-</h1>
+    <a href="/my-books" class="card mybooks">
+      <div class="icon">📖</div>
+      <h3>كتبي</h3>
+      <p>إدارة الكتب التي قمت باستعارتها.</p>
+    </a>
 
-<a href="/logout" class="logout-btn">
+    <a href="/courses" class="card courses">
+      <div class="icon">🎓</div>
+      <h3>الدورات</h3>
+      <p>اكتشف الدورات التعليمية الجديدة.</p>
+    </a>
 
-<i class="fa-solid fa-right-from-bracket"></i>
+    <a href="/my-courses" class="card mycourses">
+      <div class="icon">🏆</div>
+      <h3>دوراتي</h3>
+      <p>عرض جميع الدورات التي سجلت بها.</p>
+    </a>
 
-تسجيل الخروج
-
-</a>
-
+  </div>
 </div>
 
-<div class="welcome">
-
-<h2>
-
-📚 أهلاً بك في مكتبة بناة
-
-</h2>
-
-<p>
-
-استمتع بتصفح الكتب والدورات التعليمية وإدارة حسابك بسهولة.
-
-</p>
-
-</div>
-
-<div class="grid">
-
-{% if username == 'admin' %}
-
-<a href="/admin" class="card admin">
-
-<div class="icon">
-
-⚙️
-
-</div>
-
-<h3>
-
-لوحة الإدارة
-
-</h3>
-
-<p>
-
-إدارة الكتب والدورات والمستخدمين ومتابعة جميع العمليات.
-
-</p>
-
-</a>
-
-{% endif %}
-
-<a href="/books" class="card books">
-
-<div class="icon">
-
-📚
-
-</div>
-
-<h3>
-
-تصفح الكتب
-
-</h3>
-
-<p>
-
-استكشف جميع الكتب الموجودة داخل المكتبة.
-
-</p>
-
-</a>
-
-<a href="/my-books" class="card mybooks">
-
-<div class="icon">
-
-📖
-
-</div>
-
-<h3>
-
-كتبي
-
-</h3>
-
-<p>
-
-إدارة الكتب التي قمت باستعارتها.
-
-</p>
-
-</a>
-
-<a href="/courses" class="card courses">
-
-<div class="icon">
-
-🎓
-
-</div>
-
-<h3>
-
-الدورات
-
-</h3>
-
-<p>
-
-اكتشف الدورات التعليمية الجديدة.
-
-</p>
-
-</a>
-
-<a href="/my-courses" class="card mycourses">
-
-<div class="icon">
-
-🏆
-
-</div>
-
-<h3>
-
-دوراتي
-
-</h3>
-
-<p>
-
-عرض جميع الدورات التي سجلت بها.
-
-</p>
-
-</a>
-
-</div>
-
-</div>
-
-</footer>
-<!-- قسم تابعنا وتواصل معنا الجديد -->
 <div class="social-links-section">
-    <h3>🌐 تابعنا وتواصل معنا</h3>
-    <p>اشترك معنا على منصات التواصل الاجتماعي لتبقى على اطلاع بأحدث الدورات والكتب:</p>
-    
-    <div class="social-links-container">
-        <!-- زر فيسبوك -->
-        <a href="https://www.facebook.com/YOUR_PAGE" target="_blank" class="social-btn facebook-btn">
-            <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" class="social-icon">
-            فيسبوك
-        </a>
-        
-        <!-- زر إنستغرام -->
-        <a href="https://www.instagram.com/YOUR_ACCOUNT" target="_blank" class="social-btn instagram-btn">
-            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="social-icon">
-            إنستغرام
-        </a>
-    </div>
-</div>
-</body>
+  <h3>🌐 تابعنا وتواصل معنا</h3>
+  <p>اشترك معنا على منصات التواصل الاجتماعي لتبقى على اطلاع بأحدث الدورات والكتب:</p>
 
+  <div class="social-links-container">
+    <a href="https://www.facebook.com/share/1GgsWwQhNZ/" target="_blank" class="social-btn facebook-btn">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" class="social-icon">
+      فيسبوك
+    </a>
+
+    <a href="https://www.instagram.com/bunat.2025?igsh=bjUxOHRhamk3YW96" target="_blank" class="social-btn instagram-btn">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" class="social-icon">
+      إنستغرام
+    </a>
+  </div>
+</div>
+
+</body>
 </html>
