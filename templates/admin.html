@@ -9,329 +9,497 @@
 <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Almarai:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 
 <style>
-  :root{
-    --paper:#0e1b16;
-    --panel:#142720;
-    --panel-alt:#1b342b;
-    --panel-deep:#0a1712;
-    --ink:#eef3ee;
-    --ink-dim:#9db5aa;
-    --wine:#c0392b;
-    --wine-light:#e0574a;
-    --gold:#e0a83e;
-    --gold-light:#f0c368;
-    --emerald:#2f9e6e;
-    --emerald-light:#3fbb84;
-    --lapis:#4a90c2;
-    --line:rgba(224,168,62,.15);
-  }
 
-  *{box-sizing:border-box;}
+/* =====================================================
+   1) المتغيرات — نفس هوية الألوان المستخدمة بباقي الموقع
+      (التدرج الأزرق الداكن + لمسات سماوي/بنفسجي/أخضر/أحمر)
+   ===================================================== */
+:root{
+  --bg-1: #071426;
+  --bg-2: #0b1f3d;
+  --bg-3: #102b54;
+  --bg-4: #1d4ed8;
 
-  body{
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Almarai',sans-serif;
-    margin:0;
-    min-height:100vh;
-    position:relative;
-  }
+  --panel: rgba(255, 255, 255, .08);
+  --panel-alt: rgba(255, 255, 255, .13);
+  --panel-deep: rgba(255, 255, 255, .05);
+  --panel-solid: #0b1730;
 
-  body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:0;
-    opacity:.35;
-    background-image:radial-gradient(circle, rgba(224,168,62,.06) 1px, transparent 1px);
-    background-size:14px 14px;
-  }
+  --ink: #ffffff;
+  --ink-dim: #b8c7e0;
+  --ink-soft: #dbeafe;
 
-  .admin-container{
-    max-width:1280px;
-    margin:0 auto;
-    padding:36px 22px 60px;
-    position:relative;
-    z-index:1;
-  }
+  --line: rgba(255, 255, 255, .14);
 
-  /* ===== Header ===== */
-  .admin-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:var(--panel);
-    padding:22px 32px;
-    border-radius:4px;
-    border:1px solid var(--line);
-    border-bottom:3px solid var(--gold);
-    margin-bottom:26px;
-    box-shadow:0 8px 24px rgba(0,0,0,.35);
-  }
+  --accent: #38bdf8;
+  --accent-light: #7dd3fc;
+  --accent-deep: #2563eb;
+  --cyan: #06b6d4;
+  --violet: #818cf8;
 
-  .admin-header h1{
-    margin:0;
-    font-family:'Aref Ruqaa',serif;
-    font-weight:700;
-    font-size:26px;
-    color:var(--gold-light);
-    display:flex;
-    align-items:center;
-    gap:12px;
-  }
+  --success: #22c55e;
+  --success-light: #4ade80;
 
-  .admin-header h1 i{ color:var(--gold); font-size:23px; }
+  --danger: #ef4444;
+  --danger-light: #fca5a5;
 
-  .btn-logout{
-    background:transparent;
-    border:1.5px solid var(--wine);
-    color:var(--wine-light);
-    text-decoration:none;
-    padding:10px 22px;
-    border-radius:3px;
-    font-weight:700;
-    font-size:14px;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    transition:.25s;
-  }
+  --rose: #fb7185;
+}
 
-  .btn-logout:hover{
-    background:var(--wine);
-    color:var(--ink);
-  }
+/* =====================================================
+   2) القاعدة العامة والخلفية المتحركة
+   ===================================================== */
+*{ box-sizing: border-box; }
 
-  /* ===== Quick stats ===== */
-  .stats-row{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    gap:14px;
-    margin-bottom:26px;
-  }
+body{
+  background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-4));
+  background-size: 400% 400%;
+  animation: bgMove 18s ease infinite;
+  color: var(--ink);
+  font-family: 'Almarai', sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+}
 
-  .stat-box{
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-top:3px solid var(--c,var(--gold));
-    border-radius:4px;
-    padding:16px 18px;
-    display:flex;
-    align-items:center;
-    gap:14px;
-  }
+@keyframes bgMove{
+  0%{ background-position: 0% 50%; }
+  50%{ background-position: 100% 50%; }
+  100%{ background-position: 0% 50%; }
+}
 
-  .stat-box i{
-    font-size:22px;
-    color:var(--c,var(--gold));
-    width:38px; height:38px;
-    display:flex; align-items:center; justify-content:center;
-    border-radius:50%;
-    background:color-mix(in srgb, var(--c,var(--gold)) 16%, transparent);
-  }
+@keyframes fadeInUp{
+  from{ opacity: 0; transform: translateY(16px); }
+  to{ opacity: 1; transform: translateY(0); }
+}
 
-  .stat-box .num{
-    font-family:'Aref Ruqaa',serif;
-    font-weight:700;
-    font-size:24px;
-    color:var(--ink);
-    line-height:1;
-  }
+.admin-container{
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 36px 22px 60px;
+  position: relative;
+  z-index: 1;
+}
 
-  .stat-box .lbl{
-    font-size:12.5px;
-    color:var(--ink-dim);
-    margin-top:4px;
-  }
+/* =====================================================
+   3) الهيدر
+   ===================================================== */
+.admin-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 22px 32px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  margin-bottom: 26px;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, .35);
+  animation: fadeInUp .5s ease both;
+}
 
-  .stat-books{ --c:var(--lapis); }
-  .stat-courses{ --c:#a878d6; }
-  .stat-users{ --c:var(--emerald); }
-  .stat-reservations{ --c:var(--gold); }
-  .stat-enrollments{ --c:var(--wine-light); }
+.admin-header h1{
+  margin: 0;
+  font-family: 'Aref Ruqaa', serif;
+  font-weight: 700;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 
-  /* ===== Flash ===== */
-  .flash-messages{ margin-bottom:22px; display:flex; flex-direction:column; gap:10px; }
+  background: linear-gradient(90deg, var(--accent-light), var(--accent), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-  .flash-box{
-    padding:14px 18px;
-    border-radius:3px;
-    font-weight:700;
-    font-size:14px;
-    border-right:3px solid;
-  }
+.admin-header h1 i{ color: var(--accent); font-size: 23px; -webkit-text-fill-color: var(--accent); }
 
-  .flash-success{ background:rgba(47,158,110,.12); border-color:var(--emerald); color:var(--emerald-light); }
-  .flash-error{ background:rgba(192,57,43,.12); border-color:var(--wine); color:var(--wine-light); }
+.btn-logout{
+  background: transparent;
+  border: 1.5px solid var(--danger);
+  color: var(--danger-light);
+  text-decoration: none;
+  padding: 10px 22px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: .25s;
+}
 
-  /* ===== Grid & Cards ===== */
-  .admin-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(520px, 1fr));
-    gap:22px;
-    margin-bottom:22px;
-  }
+.btn-logout:hover{
+  background: var(--danger);
+  color: var(--ink);
+}
 
-  @media (max-width:768px){
-    .admin-grid{ grid-template-columns:1fr; }
-    .admin-form{ flex-direction:column; }
-  }
+/* =====================================================
+   4) صف الإحصائيات السريعة (وهو أيضاً مفاتيح التابات)
+   ===================================================== */
+.stats-row{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
 
-  .admin-card{
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:4px;
-    padding:26px;
-    box-shadow:0 6px 20px rgba(0,0,0,.3);
-  }
+.stat-box{
+  background: var(--panel);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--c, var(--accent));
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  text-align: right;
+  width: 100%;
+  font-family: 'Almarai', sans-serif;
+  transition: transform .25s, box-shadow .25s, background .25s;
+  animation: fadeInUp .5s ease both;
+}
 
-  .card-title{
-    font-family:'Aref Ruqaa',serif;
-    font-weight:700;
-    font-size:20px;
-    color:var(--gold-light);
-    margin:0 0 20px;
-    padding-bottom:12px;
-    border-bottom:2px solid var(--line);
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
+.stat-box:hover{
+  background: var(--panel-alt);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, .3);
+}
 
-  .card-title i{ color:var(--gold); font-size:18px; }
+.stat-box.is-active{
+  background: var(--panel-alt);
+  box-shadow: 0 0 0 1px var(--c, var(--accent)) inset;
+}
 
-  .sub-label{
-    color:var(--gold);
-    font-weight:700;
-    font-size:13.5px;
-    margin:18px 0 10px;
-    display:flex;
-    align-items:center;
-    gap:6px;
-  }
+.stat-box i{
+  font-size: 22px;
+  color: var(--c, var(--accent));
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--c, var(--accent)) 18%, transparent);
+  flex-shrink: 0;
+}
 
-  /* ===== Forms ===== */
-  .admin-form{
-    display:flex;
-    gap:12px;
-    margin-bottom:22px;
-  }
+.stat-box .num{
+  font-family: 'Aref Ruqaa', serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--ink);
+  line-height: 1;
+}
 
-  .form-group{ flex:1; }
+.stat-box .lbl{
+  font-size: 12.5px;
+  color: var(--ink-dim);
+  margin-top: 4px;
+}
 
-  .form-control{
-    width:100%;
-    padding:12px 14px;
-    background:var(--panel-deep);
-    border:1px solid var(--line);
-    border-radius:3px;
-    color:var(--ink);
-    font-family:'Almarai',sans-serif;
-    font-size:14px;
-    transition:.25s;
-  }
+.stat-books{ --c: var(--accent); }
+.stat-courses{ --c: var(--violet); }
+.stat-users{ --c: var(--success); }
+.stat-reservations{ --c: var(--cyan); }
+.stat-enrollments{ --c: var(--rose); }
 
-  .form-control::placeholder{ color:#5c7268; }
+/* =====================================================
+   5) رسائل التنبيه (Flash)
+   ===================================================== */
+.flash-messages{ margin-bottom: 22px; display: flex; flex-direction: column; gap: 10px; }
 
-  .form-control:focus{
-    border-color:var(--gold);
-    outline:none;
-    background:#0d1d17;
-    box-shadow:0 0 0 3px rgba(224,168,62,.15);
-  }
+.flash-box{
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  border-right: 3px solid;
+  animation: fadeInUp .35s ease both;
+}
 
-  .btn-submit{
-    background:var(--emerald);
-    color:#0a1712;
-    border:none;
-    padding:0 26px;
-    border-radius:3px;
-    cursor:pointer;
-    font-weight:700;
-    font-size:14px;
-    font-family:'Almarai',sans-serif;
-    transition:.25s;
-    white-space:nowrap;
-  }
+.flash-success{
+  background: rgba(34, 197, 94, .15);
+  border-color: var(--success);
+  color: var(--success-light);
+}
 
-  .btn-submit:hover{ background:var(--emerald-light); }
+.flash-error{
+  background: rgba(239, 68, 68, .18);
+  border-color: var(--danger);
+  color: #ffe4e6;
+}
 
-  /* ===== Tables ===== */
-  .table-responsive{
-    overflow-x:auto;
-    max-height:300px;
-    overflow-y:auto;
-    border:1px solid var(--line);
-    border-radius:3px;
-  }
+/* =====================================================
+   6) التابات (أقسام التنقل)
+   ===================================================== */
+.tab-nav{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: var(--panel);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 8px;
+  margin-bottom: 22px;
+}
 
-  .admin-table{
-    width:100%;
-    border-collapse:collapse;
-    text-align:right;
-    font-size:14px;
-  }
+.tab-btn{
+  background: transparent;
+  border: none;
+  color: var(--ink-dim);
+  font-family: 'Almarai', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: .2s;
+}
 
-  .admin-table th{
-    background:var(--panel-deep);
-    color:var(--gold-light);
-    padding:12px 14px;
-    font-weight:700;
-    font-size:13px;
-    position:sticky;
-    top:0;
-    border-bottom:2px solid var(--gold);
-  }
+.tab-btn i{ font-size: 14px; }
 
-  .admin-table td{
-    padding:12px 14px;
-    border-bottom:1px solid var(--line);
-    color:var(--ink-dim);
-    background:var(--panel);
-  }
+.tab-btn:hover{ background: var(--panel-alt); color: var(--ink); }
 
-  .admin-table tr:hover td{
-    background:var(--panel-alt);
-    color:var(--ink);
-  }
+.tab-btn.is-active{
+  background: linear-gradient(135deg, var(--accent-deep), var(--cyan));
+  color: var(--ink);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, .35);
+}
 
-  .cell-strong{ font-weight:700; color:var(--ink) !important; }
-  .cell-accent{ color:var(--lapis) !important; font-weight:700; }
+.tab-panel{ display: none; }
+.tab-panel.is-active{ display: block; animation: fadeInUp .35s ease both; }
 
-  .no-data{
-    text-align:center;
-    color:var(--ink-dim);
-    padding:20px;
-    font-style:italic;
-    background:var(--panel);
-  }
+/* =====================================================
+   7) الشبكة والبطاقات
+   ===================================================== */
+.admin-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+  gap: 22px;
+  margin-bottom: 22px;
+}
 
-  .btn-delete{
-    background:none;
-    border:1px solid var(--wine);
-    color:var(--wine-light);
-    padding:5px 14px;
-    border-radius:3px;
-    cursor:pointer;
-    font-size:12px;
-    font-family:'Almarai',sans-serif;
-    font-weight:700;
-    transition:.25s;
-  }
+@media (max-width: 768px){
+  .admin-grid{ grid-template-columns: 1fr; }
+  .admin-form{ flex-direction: column; }
+}
 
-  .btn-delete:hover{
-    background:var(--wine);
-    color:var(--ink);
-  }
+.admin-card{
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 26px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, .3);
+  transition: box-shadow .3s;
+}
 
-  .full-span{ grid-column:1 / -1; }
+.card-title{
+  font-family: 'Aref Ruqaa', serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--accent-light);
+  margin: 0 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  /* scrollbar */
-  ::-webkit-scrollbar{ width:8px; height:8px; }
-  ::-webkit-scrollbar-track{ background:var(--paper); }
-  ::-webkit-scrollbar-thumb{ background:var(--gold); border-radius:20px; }
-  ::-webkit-scrollbar-thumb:hover{ background:var(--gold-light); }
+.card-title i{ color: var(--accent); font-size: 18px; }
+
+.sub-label{
+  color: var(--accent-light);
+  font-weight: 700;
+  font-size: 13.5px;
+  margin: 18px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* =====================================================
+   8) الفورمات
+   ===================================================== */
+.admin-form{
+  display: flex;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.form-group{ flex: 1; }
+
+.form-control{
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--panel-deep);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--ink);
+  font-family: 'Almarai', sans-serif;
+  font-size: 14px;
+  transition: .25s;
+}
+
+.form-control::placeholder{ color: var(--ink-dim); }
+
+.form-control:focus{
+  border-color: var(--accent);
+  outline: none;
+  background: rgba(255, 255, 255, .1);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, .25);
+}
+
+.btn-submit{
+  background: linear-gradient(135deg, var(--accent-deep), var(--cyan));
+  color: var(--ink);
+  border: none;
+  padding: 0 26px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  font-family: 'Almarai', sans-serif;
+  transition: transform .25s, box-shadow .25s, background .25s;
+  white-space: nowrap;
+  box-shadow: 0 10px 24px rgba(37, 99, 235, .35);
+}
+
+.btn-submit:hover{
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, var(--bg-4), #0891b2);
+  box-shadow: 0 16px 32px rgba(6, 182, 212, .4);
+}
+
+/* =====================================================
+   9) الجداول
+   ===================================================== */
+.table-responsive{
+  overflow-x: auto;
+  max-height: 420px;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.admin-table{
+  width: 100%;
+  border-collapse: collapse;
+  text-align: right;
+  font-size: 14px;
+}
+
+.admin-table th{
+  background: rgba(37, 99, 235, .8);
+  color: var(--ink);
+  padding: 12px 14px;
+  font-weight: 700;
+  font-size: 13px;
+  position: sticky;
+  top: 0;
+}
+
+.admin-table td{
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-dim);
+  background: rgba(255, 255, 255, .03);
+}
+
+.admin-table tr:hover td{
+  background: var(--panel-alt);
+  color: var(--ink);
+}
+
+.cell-strong{ font-weight: 700; color: var(--ink) !important; }
+.cell-accent{ color: var(--accent-light) !important; font-weight: 700; }
+
+.no-data{
+  text-align: center;
+  color: var(--ink-dim);
+  padding: 20px;
+  font-style: italic;
+  background: transparent;
+}
+
+.btn-delete{
+  background: none;
+  border: 1px solid var(--danger);
+  color: var(--danger-light);
+  padding: 5px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'Almarai', sans-serif;
+  font-weight: 700;
+  transition: .25s;
+}
+
+.btn-delete:hover{
+  background: var(--danger);
+  color: var(--ink);
+}
+
+.full-span{ grid-column: 1 / -1; }
+
+/* =====================================================
+   10) خانة البحث فوق كل جدول
+   ===================================================== */
+.table-search{
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.table-search input{
+  width: 100%;
+  padding: 10px 38px 10px 14px;
+  background: var(--panel-deep);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--ink);
+  font-family: 'Almarai', sans-serif;
+  font-size: 13.5px;
+  transition: .25s;
+}
+
+.table-search input::placeholder{ color: var(--ink-dim); }
+
+.table-search input:focus{
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, .2);
+}
+
+.table-search i{
+  position: absolute;
+  top: 50%;
+  right: 13px;
+  transform: translateY(-50%);
+  color: var(--ink-dim);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+/* =====================================================
+   11) شريط التمرير
+   ===================================================== */
+::-webkit-scrollbar{ width: 8px; height: 8px; }
+::-webkit-scrollbar-track{ background: var(--panel-solid); }
+::-webkit-scrollbar-thumb{ background: var(--accent-deep); border-radius: 20px; }
+::-webkit-scrollbar-thumb:hover{ background: var(--accent); }
+
 </style>
 </head>
 <body>
@@ -345,27 +513,28 @@
     </a>
   </header>
 
+  <!-- Stats row: clickable, jumps straight to the matching tab -->
   <div class="stats-row">
-    <div class="stat-box stat-books">
+    <button type="button" class="stat-box stat-books" data-tab="books">
       <i class="fa-solid fa-book"></i>
       <div><div class="num">{{ books|length }}</div><div class="lbl">كتاب مسجل</div></div>
-    </div>
-    <div class="stat-box stat-courses">
+    </button>
+    <button type="button" class="stat-box stat-courses" data-tab="courses">
       <i class="fa-solid fa-graduation-cap"></i>
       <div><div class="num">{{ courses|length }}</div><div class="lbl">دورة منشورة</div></div>
-    </div>
-    <div class="stat-box stat-users">
+    </button>
+    <button type="button" class="stat-box stat-users" data-tab="users">
       <i class="fa-solid fa-users"></i>
       <div><div class="num">{{ users|length }}</div><div class="lbl">مستخدم مسجل</div></div>
-    </div>
-    <div class="stat-box stat-reservations">
+    </button>
+    <button type="button" class="stat-box stat-reservations" data-tab="reservations">
       <i class="fa-solid fa-bookmark"></i>
       <div><div class="num">{{ reservations|length }}</div><div class="lbl">استعارة نشطة</div></div>
-    </div>
-    <div class="stat-box stat-enrollments">
+    </button>
+    <button type="button" class="stat-box stat-enrollments" data-tab="enrollments">
       <i class="fa-solid fa-user-graduate"></i>
       <div><div class="num">{{ enrollments|length }}</div><div class="lbl">اشتراك بدورة</div></div>
-    </div>
+    </button>
   </div>
 
   {% with messages = get_flashed_messages(with_categories=true) %}
@@ -378,8 +547,17 @@
     {% endif %}
   {% endwith %}
 
-  <div class="admin-grid">
+  <!-- Tab navigation -->
+  <nav class="tab-nav">
+    <button type="button" class="tab-btn" data-tab="books"><i class="fa-solid fa-book"></i> الكتب</button>
+    <button type="button" class="tab-btn" data-tab="courses"><i class="fa-solid fa-graduation-cap"></i> الدورات</button>
+    <button type="button" class="tab-btn" data-tab="users"><i class="fa-solid fa-users"></i> المستخدمون</button>
+    <button type="button" class="tab-btn" data-tab="reservations"><i class="fa-solid fa-bookmark"></i> الاستعارات</button>
+    <button type="button" class="tab-btn" data-tab="enrollments"><i class="fa-solid fa-user-graduate"></i> الاشتراكات</button>
+  </nav>
 
+  <!-- ===== Books tab ===== -->
+  <section class="tab-panel" id="tab-books">
     <div class="admin-card">
       <h2 class="card-title"><i class="fa-solid fa-plus"></i> إضافة كتاب جديد للمكتبة</h2>
       <form action="{{ url_for('add_book') }}" method="POST" class="admin-form">
@@ -389,12 +567,19 @@
         <div class="form-group">
           <input type="text" name="author" class="form-control" placeholder="المؤلف (مثال: Robert C. Martin)" required>
         </div>
+        <div class="form-group">
+          <textarea name="description" class="form-control" placeholder="اكتب وصفاً مختصراً عن محتوى الكتاب أو عن ماذا يتحدث..." rows="1" style="resize: vertical;"></textarea>
+        </div>
         <button type="submit" class="btn-submit">حفظ الكتاب</button>
       </form>
 
-      <h3 class="sub-label"><i class="fa-solid fa-list"></i> الكتب المتاحة حالياً</h3>
+      <h3 class="sub-label"><i class="fa-solid fa-list"></i> الكتب المتاحة حالياً ({{ books|length }})</h3>
+      <div class="table-search">
+        <input type="text" data-search-target="table-books" placeholder="ابحث عن كتاب أو مؤلف...">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
       <div class="table-responsive">
-        <table class="admin-table">
+        <table class="admin-table" id="table-books">
           <thead>
             <tr>
               <th>العنوان</th>
@@ -420,22 +605,29 @@
         </table>
       </div>
     </div>
+  </section>
 
+  <!-- ===== Courses tab ===== -->
+  <section class="tab-panel" id="tab-courses">
     <div class="admin-card">
       <h2 class="card-title"><i class="fa-solid fa-plus"></i> إضافة دورة تدريبية جديدة</h2>
       <form action="{{ url_for('add_course') }}" method="POST" class="admin-form">
         <div class="form-group">
-          <input type="text" name="title" class="form-control" placeholder="اسم الدورة (مثال: Advanced JavaScript)" required>
+          <input type="text" name="title" class="form-control" placeholder="عنوان الدورة (مثال: كورس Flask للمبتدئين)" required>
         </div>
         <div class="form-group">
-          <input type="text" name="instructor" class="form-control" placeholder="المهندس / المدرب" required>
+          <textarea name="description" class="form-control" placeholder="اكتب ملاحظات أو تفاصيل حول الدورة..." rows="1" style="resize: vertical;"></textarea>
         </div>
-        <button type="submit" class="btn-submit">نشر الدورة</button>
+        <button type="submit" class="btn-submit">حفظ الدورة</button>
       </form>
 
-      <h3 class="sub-label"><i class="fa-solid fa-list"></i> الدورات المنشورة</h3>
+      <h3 class="sub-label"><i class="fa-solid fa-list"></i> الدورات المنشورة ({{ courses|length }})</h3>
+      <div class="table-search">
+        <input type="text" data-search-target="table-courses" placeholder="ابحث عن دورة أو مدرب...">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
       <div class="table-responsive">
-        <table class="admin-table">
+        <table class="admin-table" id="table-courses">
           <thead>
             <tr>
               <th>اسم الدورة</th>
@@ -461,15 +653,18 @@
         </table>
       </div>
     </div>
+  </section>
 
-  </div>
-
-  <div class="admin-grid">
-
+  <!-- ===== Users tab ===== -->
+  <section class="tab-panel" id="tab-users">
     <div class="admin-card">
-      <h2 class="card-title"><i class="fa-solid fa-users"></i> المستخدمون المسجلون في النظام</h2>
+      <h2 class="card-title"><i class="fa-solid fa-users"></i> المستخدمون المسجلون في النظام ({{ users|length }})</h2>
+      <div class="table-search">
+        <input type="text" data-search-target="table-users" placeholder="ابحث عن مستخدم...">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
       <div class="table-responsive">
-        <table class="admin-table">
+        <table class="admin-table" id="table-users">
           <thead>
             <tr>
               <th>رقم الحساب (ID)</th>
@@ -489,11 +684,18 @@
         </table>
       </div>
     </div>
+  </section>
 
+  <!-- ===== Reservations tab ===== -->
+  <section class="tab-panel" id="tab-reservations">
     <div class="admin-card">
-      <h2 class="card-title"><i class="fa-solid fa-bookmark"></i> استعارات الكتب الحالية</h2>
+      <h2 class="card-title"><i class="fa-solid fa-bookmark"></i> استعارات الكتب الحالية ({{ reservations|length }})</h2>
+      <div class="table-search">
+        <input type="text" data-search-target="table-reservations" placeholder="ابحث عن مستعير أو كتاب...">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
       <div class="table-responsive">
-        <table class="admin-table">
+        <table class="admin-table" id="table-reservations">
           <thead>
             <tr>
               <th>المستعير</th>
@@ -515,11 +717,18 @@
         </table>
       </div>
     </div>
+  </section>
 
-    <div class="admin-card full-span">
-      <h2 class="card-title"><i class="fa-solid fa-user-graduate"></i> الاشتراكات بالدورات التدريبية</h2>
+  <!-- ===== Enrollments tab ===== -->
+  <section class="tab-panel" id="tab-enrollments">
+    <div class="admin-card">
+      <h2 class="card-title"><i class="fa-solid fa-user-graduate"></i> الاشتراكات بالدورات التدريبية ({{ enrollments|length }})</h2>
+      <div class="table-search">
+        <input type="text" data-search-target="table-enrollments" placeholder="ابحث عن طالب أو دورة...">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
       <div class="table-responsive">
-        <table class="admin-table">
+        <table class="admin-table" id="table-enrollments">
           <thead>
             <tr>
               <th>الطالب المشترك</th>
@@ -541,10 +750,61 @@
         </table>
       </div>
     </div>
-
-  </div>
+  </section>
 
 </div>
+
+<script>
+(function () {
+  var TABS = ['books', 'courses', 'users', 'reservations', 'enrollments'];
+
+  function activateTab(name) {
+    if (TABS.indexOf(name) === -1) return;
+
+    TABS.forEach(function (t) {
+      var panel = document.getElementById('tab-' + t);
+      if (panel) panel.classList.toggle('is-active', t === name);
+    });
+
+    document.querySelectorAll('.tab-btn').forEach(function (btn) {
+      btn.classList.toggle('is-active', btn.getAttribute('data-tab') === name);
+    });
+
+    document.querySelectorAll('.stat-box').forEach(function (box) {
+      box.classList.toggle('is-active', box.getAttribute('data-tab') === name);
+    });
+
+    if (history.replaceState) {
+      history.replaceState(null, '', '#' + name);
+    }
+  }
+
+  // Wire up tab buttons + stat boxes
+  document.querySelectorAll('[data-tab]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      activateTab(el.getAttribute('data-tab'));
+    });
+  });
+
+  // Simple live search inside each table
+  document.querySelectorAll('.table-search input').forEach(function (input) {
+    input.addEventListener('input', function () {
+      var table = document.getElementById(input.getAttribute('data-search-target'));
+      if (!table) return;
+      var query = input.value.trim().toLowerCase();
+      table.querySelectorAll('tbody tr').forEach(function (row) {
+        if (row.querySelector('.no-data')) return; // keep the empty-state row untouched
+        var text = row.textContent.toLowerCase();
+        row.style.display = text.indexOf(query) === -1 ? 'none' : '';
+      });
+    });
+  });
+
+  // Open the tab from the URL hash if present, otherwise default to books
+  var initial = window.location.hash ? window.location.hash.replace('#', '') : 'books';
+  activateTab(TABS.indexOf(initial) !== -1 ? initial : 'books');
+})();
+</script>
 
 </body>
 </html>

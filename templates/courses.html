@@ -112,7 +112,12 @@
                     <div>
                         <div class="course-icon">💻</div>
                         <div class="course-title">{{ course.title }}</div>
-                        <div class="course-instructor">المهندس المسؤول: {{ course.instructor }}</div>
+
+                        {% if course['description'] %}
+                        <p style="font-size: 13px; color: #f59e0b; margin-top: 8px; font-weight: bold; line-height: 1.5;">
+                            📝 ملاحظة: {{ course['description'] }}
+                        </p>
+                        {% endif %} 
                     </div>
                     {% if course.id in enrolled_ids %}
                         <button class="btn btn-disabled" disabled>✔️ أنت مشترك بالدورة بالفعل</button>

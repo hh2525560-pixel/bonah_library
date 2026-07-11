@@ -115,6 +115,9 @@
                         <div class="book-icon">📘</div>
                         <div class="book-title">{{ book.title }}</div>
                         <div class="book-author">المؤلف: {{ book.author }}</div>
+                        <p style="font-size: 14px; color: #cbd5e1; margin: 10px 0; line-height: 1.6; text-align: justify;">
+                         {{ book['description'] }}
+</p>
                     </div>
                     {% if book.id in reserved_ids %}
                         <button class="btn btn-disabled" disabled>✔️ تم حجز هذا الكتاب مسبقاً</button>
